@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Providers } from '@/store/provider'
+import NavBar from '@/components/NavBar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,12 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body suppressHydrationWarning={true} className={inter.className}>
       <Providers>
-        <nav>This is a nav bar</nav>
-          <main className='container mx-auto px-5 mt-4'>
-            {children}
-          </main>
+        <NavBar />
+        <main className='container mx-auto px-5 mt-4'>
+          {children}
+        </main>
       </Providers>
       </body>
     </html>

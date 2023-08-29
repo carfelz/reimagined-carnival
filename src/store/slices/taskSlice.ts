@@ -4,12 +4,17 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type TaskState = {
     isModalOpen: boolean;
     selectedTask: ITask | null,
+    newTask: ITask
 }
 
-const initialState = {
+const initialState: TaskState = {
     isModalOpen: false,
     selectedTask: null,
-} as TaskState
+    newTask: {
+        title: '',
+        description: ''
+    },
+}
 
 export const taskSlice = createSlice({
     name: 'Task',
@@ -17,12 +22,13 @@ export const taskSlice = createSlice({
     reducers: {
         reset: () => initialState,
         openModal: (state) => {
-            if(state.isModalOpen) return
             state.isModalOpen = true
         },
         closeModal: (state) => {
-            if(!state.isModalOpen) return
             state.isModalOpen = false
+        },
+        setNewTask: (state, action: PayloadAction<ITask>) => {
+            state.newTask = action.payload
         }
     }
 })
@@ -31,6 +37,7 @@ export const  {
     reset,
     openModal,
     closeModal,
+    setNewTask
 } = taskSlice.actions
 
 export default taskSlice.reducer;

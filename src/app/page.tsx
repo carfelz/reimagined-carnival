@@ -11,7 +11,7 @@ async function fetchData(): Promise<ITask[]> {
 
 const HomePage: React.FC = async () => {
   const tasks = JSON.parse(JSON.stringify(await fetchData()))
-  return <Tasks tasks={tasks}/>
+  return <Tasks tasks={tasks} />
 }
 
 export default HomePage
