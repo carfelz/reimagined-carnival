@@ -1,8 +1,8 @@
 import { connectDB } from "@/utils/mongoose";
 import ITask from "./interfaces/Tasks.interface";
-import TaskCard from "@/components/TaskCard";
-import Modal from "@/components/Modal";
 import Task from "./models/Task";
+import Tasks from "@/components/Tasks";
+
 
 async function fetchData(): Promise<ITask[]> {
   connectDB();
@@ -10,20 +10,8 @@ async function fetchData(): Promise<ITask[]> {
 }
 
 const HomePage: React.FC = async () => {
-  const tasks = await fetchData();
-  return(
-    <>
-      <div className="grid grid-cols-3 gap-2">
-      {
-      tasks.map(task => (
-        <TaskCard task={task} />
-      ))
-    }
-    </div>
-    <Modal title='testing' show={true} onClose={() => {}} onSubmit={() => {}} />
-
-    </>
-  )
+  const tasks = JSON.parse(JSON.stringify(await fetchData()))
+  return <Tasks tasks={tasks}/>
 }
 
 export default HomePage

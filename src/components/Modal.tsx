@@ -3,7 +3,8 @@ type ModalProps = {
     onClose: Function,
     onSubmit: Function,
     title: string,
-    show: boolean
+    show: boolean,
+    closeModal: Function
 }
 
 const Modal: React.FC<ModalProps> = (props) => {
@@ -15,13 +16,13 @@ const Modal: React.FC<ModalProps> = (props) => {
             <div className="w-[500px] bg-white">
                 <div className="p-4 flex justify-between">
                     <h4 className="m-0">Testing modal</h4>
-                    <p className="border rounded-total py-0 px-1 cursor-pointer">x</p>
+                    <div onClick={() => props.closeModal()} className="border rounded-total py-0 cursor-pointer w-[25px] pl-[7.5px]">x</div>
                 </div>
                 <div className="p-4 border-[#eee] border-t border-b ">
                    <TaskForm />
                 </div>
                 <div className="p-4">
-                    <button className="button">Close</button>
+                    <button onClick={() => props.closeModal()} className="button">Close</button>
                 </div>
             </div>
         </div>
