@@ -12,5 +12,5 @@ export async function eraseTask(taskId: string): Promise<void> {
 }
 
 export async function updateTask(updatedTask: ITask): Promise<ITask> {
-    return await axios.put(`${BASE}/api/tasks`, updatedTask)
+    return await axios.put(`${BASE}/api/tasks/${updatedTask._id}`, updatedTask)
 }

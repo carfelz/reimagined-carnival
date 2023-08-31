@@ -1,24 +1,41 @@
-import { useState } from 'react'
-import { useAppDispatch } from '@/store/hooks'
-import * as slice from '@/store/slices/taskSlice'
+import { useEffect, useState } from 'react'
+import { useAppSelector } from '@/store/hooks'
 import ITask from '@/app/interfaces/Tasks.interface'
 
-const TaskForm: React.FC = () => {
-    const [newTask, setNewTask] = useState({
+type TaskFormProps = {
+    setNewTask: Function
+    setUpdatedTask: Function
+    isCreating: boolean
+    isUpdating: boolean
+}
+
+const TaskForm: React.FC<TaskFormProps> = ({ setNewTask, setUpdatedTask, isCreating, isUpdating}) => {
+    const [task, setTask] = useState({
         title: '',
         description: ''
     } as ITask)
 
-    const dispath = useAppDispatch();
+    const selectedTask = useAppSelector((state) => state.taskSlice.selectedTask)
+
+    useEffect(() => {
+        if(selectedTask) {
+            setTask(selectedTask);
+        }
+    }, [])
 
     function handleInput(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) {
         const { value, name } = event.currentTarget
-        setNewTask({
-            ...newTask,
+        const nextState = {
+            ...task,
             [name]: value
-        })
+        }
+        setTask(nextState)
 
-        dispath(slice.setNewTask(newTask))
+        if(isCreating) {
+            setNewTask(nextState)
+        } else {
+            setUpdatedTask(nextState);
+        }
     }
     return (
         <>
@@ -36,6 +53,7 @@ const TaskForm: React.FC = () => {
                                             type="text"
                                             name="title"
                                             id="title"
+                                            value={task.title || ''}
                                             onInput={handleInput}
                                             autoComplete="title"
                                             className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
@@ -54,9 +72,9 @@ const TaskForm: React.FC = () => {
                                         id="description"
                                         name="description"
                                         onInput={handleInput}
+                                        value={task.description || ''}
                                         rows={3}
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:none sm:text-sm sm:leading-6"
-                                        defaultValue={''}
                                     />
                                 </div>
                             </div>

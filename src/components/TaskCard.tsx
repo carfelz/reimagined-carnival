@@ -5,11 +5,13 @@ type TaskCardProps = {
     task: ITask
     openModal: Function
     deleteTask: Function
+    handleSelectedTask: Function
 }
-const TaskCard: React.FC<TaskCardProps> = ({ task, openModal, deleteTask }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ task, openModal, deleteTask, handleSelectedTask }) => {
     function handleClick(event: React.MouseEvent<HTMLDivElement>) {
         event.preventDefault();
-        openModal();
+        handleSelectedTask(task)
+        setTimeout(() => openModal(), 100)
     }
 
     function handleDeleteTask(e: Event) {
